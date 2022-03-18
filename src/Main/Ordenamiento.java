@@ -8,14 +8,18 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Frame;
 import java.awt.HeadlessException;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -32,6 +36,7 @@ class Ordenamiento implements Runnable {
     public static JLabel pasoslb;
     public static String pasosEfectuados;
     public static String datos_ordenados = "";
+
     Ordenamiento(JLabel lb_pasos) {
         this.pasoslb = lb_pasos;
     }
@@ -50,19 +55,18 @@ class Ordenamiento implements Runnable {
                 {
                     int dat = FrameMain.datosArreglos[i];
                     String datS = String.valueOf(dat);
-                    datos_ordenados += dat +",";
+                    datos_ordenados += dat + ",";
                 }
-                System.out.println(datos_ordenados);
-                JOptionPane.showMessageDialog(new FrameMain(), "Se ha terminado el ordenamiento ascendente");
                 pdfOrden1(fechaReportes());
+                html1(fechaReportes());
+                JOptionPane.showMessageDialog(new FrameMain(), "Se ha terminado el ordenamiento ascendente y los reportes");
+                //Limpiar los datos
+                //limpiarDatos();
             }
 
         } catch (HeadlessException e)
         {
         } catch (DocumentException ex)
-        {
-            Logger.getLogger(Ordenamiento.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex)
         {
             Logger.getLogger(Ordenamiento.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex)
@@ -93,11 +97,10 @@ class Ordenamiento implements Runnable {
                 }
                 imprimirConsola();
                 FrameMain.imprimirGrafica();
-                FrameMain.panelNuevo.updateUI();
                 Thread.sleep(750);
                 pasos++;
-                pasoslb.setText(String.valueOf(pasos));
                 FrameMain.pMain.remove(FrameMain.panelNuevo);
+                pasoslb.setText(String.valueOf(pasos));
                 if (i < j)
                 {
                     aux = A[i];
@@ -140,7 +143,7 @@ class Ordenamiento implements Runnable {
             {
                 ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
                 File fileGraf = new File("E:\\Practica 2 IPC\\Grafica1.png");
-                ChartUtilities.saveChartAsPNG(fileGraf, FrameMain.chart, 400, 400, info);
+                ChartUtilities.saveChartAsPNG(fileGraf, FrameMain.chart, 500, 400, info);
             } catch (IOException e)
             {
             }
@@ -148,7 +151,7 @@ class Ordenamiento implements Runnable {
             Document documento = new Document(PageSize.LETTER);
             Image grafica = Image.getInstance("E:\\Practica 2 IPC\\Grafica1.png");
             OutputStream archivo;
-            archivo = new FileOutputStream("E:\\Practica 2 IPC\\" +FrameMain.title +"_"+fechaActual + ".pdf");
+            archivo = new FileOutputStream("E:\\Practica 2 IPC\\" + FrameMain.title + "_" + fechaActual + ".pdf");
             PdfWriter.getInstance(documento, archivo);
             //Abrir
             documento.open();
@@ -156,34 +159,34 @@ class Ordenamiento implements Runnable {
             Paragraph nombre = new Paragraph();
             nombre.add("Alvaro Norberto García Meza");
             nombre.setAlignment(Element.ALIGN_LEFT);
-            
+
             Paragraph carnet = new Paragraph();
             carnet.add("Carnet: 202109567");
             carnet.setAlignment(Element.ALIGN_LEFT);
-            
+
             Paragraph tipo = new Paragraph();
             tipo.add("Ordenamiento utilizado: QUICKSORT");
             tipo.setAlignment(Element.ALIGN_LEFT);
-            
+
             Paragraph tiempo = new Paragraph();
             tiempo.add("Transcurrieron: " + Cronometro.reloj);
             tiempo.setAlignment(Element.ALIGN_LEFT);
-            
+
             Paragraph pasos = new Paragraph();
             pasos.add("Pasos efecutados: " + pasosEfectuados);
             pasos.setAlignment(Element.ALIGN_LEFT);
-            
+
             Paragraph datosDesor = new Paragraph();
-            datosDesor.add("Arrelgo Desordenado: " + FrameMain.arreglo_desordenado);
+            datosDesor.add("Arreglo Desordenado: " + FrameMain.arreglo_desordenado);
             datosDesor.setAlignment(Element.ALIGN_LEFT);
-            
+
             Paragraph datosOrde = new Paragraph();
-            datosOrde.add("Arrelgo Ordenado: " + "["+datos_ordenados+"]");
+            datosOrde.add("Arreglo Ordenado: " + "[" + datos_ordenados + "]");
             datosOrde.setAlignment(Element.ALIGN_LEFT);
-            
+
             //Agregar gráfica
             grafica.setAlignment(Element.ALIGN_CENTER);
-            
+
             //Adds
             documento.add(nombre);
             documento.add(Chunk.NEWLINE);
@@ -199,9 +202,57 @@ class Ordenamiento implements Runnable {
             documento.add(Chunk.NEWLINE);
             documento.add(datosOrde);
             documento.add(Chunk.NEWLINE);
+            documento.newPage();
             documento.add(grafica);
+
             //Cierre
             documento.close();
+        }
+    }
+
+    public static void html1(String fechaActual) {
+        String nombre_reporte;
+        File reporteHTML;
+        FileWriter fw;
+        BufferedWriter buff;
+        String contenidoHTML;
+
+        try
+        {
+            nombre_reporte = "E:\\Practica 2 IPC\\" + FrameMain.title + "_" + fechaActual + ".html";
+            reporteHTML = new File(nombre_reporte);
+            fw = new FileWriter(reporteHTML);
+            buff = new BufferedWriter(fw);
+            //Texto en HTML
+            contenidoHTML = "<html>\n"
+                    + "    <head>\n"
+                    + "        <title>PRACTICA 2 </title>\n"
+                    + "    </head>\n"
+                    + "    <body>\n"
+                    + "        <h2>Alvaro Norberto Garcia Meza</h2>\n"
+                    + "        <h3>Carnet: 202109567</h3>\n"
+                    + "        <h3>Ordenamiento Utilizado: QUICKSORT</h3>\n"
+                    + "        <h3>Transcurrieron: " + Cronometro.reloj + "</h3>\n"
+                    + "        <h3>Pasos efectuados: " + pasosEfectuados + "</h3>\n"
+                    + "        <h3>Arreglo Desordenado: " + FrameMain.arreglo_desordenado + "</h3>\n"
+                    + "        <h3>Arreglo Ordenado: [" + datos_ordenados + "]</h3>\n"
+                    + "        <div style=\"text-align: center;\">\n"
+                    + "            <img src=\"E:\\\\Practica 2 IPC\\\\Grafica1.png\">"
+                    + "        </div>"
+                    + "    </body>\n"
+                    + "</html>";
+            buff.write(contenidoHTML);
+            buff.close();
+            fw.close();
+            //pdfOrden1(fechaActual, contenidoHTML);
+            Document documentoHTML = new Document();
+            documentoHTML.open();
+            HTMLWorker htmlWorker = new HTMLWorker(documentoHTML);
+            htmlWorker.parse(new StringReader(contenidoHTML));
+            documentoHTML.close();
+
+        } catch (Exception e)
+        {
         }
     }
 
@@ -209,6 +260,30 @@ class Ordenamiento implements Runnable {
     public static String fechaReportes() {
         String fechaActual = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
         return fechaActual;
+    }
+
+    public static void limpiarDatos() {
+        //Restaurar labels
+        FrameMain.lb_ruta.setText(" Ruta del archivo");
+        FrameMain.lb_titulograf.setText(" Titulo de la gráfica");
+        
+        //Restaurar variables
+        FrameMain.contador = 0;
+        FrameMain.title = "";
+        FrameMain.iniciahilo = true;
+        FrameMain.iniciahilo2 = true;
+        //Reinicar cronometro
+        Cronometro.hora = 0;
+        Cronometro.minuto = 0;
+        Cronometro.segundo = 0;
+        Cronometro.reloj = "";
+        //Restaurar arreglo
+        for (int i = 0; i < FrameMain.datosArreglos.length; i++)
+        {
+            FrameMain.datosArreglos[i] = 0;
+        }
+        
+        
     }
 
 }

@@ -6,9 +6,9 @@ import javax.swing.JLabel;
 
 
 public class Cronometro extends Thread{
-    public int hora = 0;
-    public int minuto = 0;
-    public int segundo = 0;
+    public static int hora = 0;
+    public static int minuto = 0;
+    public static int segundo = 0;
     public static String reloj;
     JLabel etiqueta;
     Cronometro(JLabel lb_cronometro) {

@@ -420,8 +420,7 @@ public class FrameMain extends javax.swing.JFrame {
         panelNuevo.setVisible(true);
         panelNuevo.setBounds(30, 150, 779, 482);
         panelNuevo.add(panel);
-        pMain.add(panelNuevo);
-        
+        pMain.add(panelNuevo);  
     }
 
     public static void imprimirGrafica2() {
@@ -452,8 +451,8 @@ public class FrameMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     public static javax.swing.JLabel lb_cronometro;
     public static javax.swing.JLabel lb_pasos;
-    private javax.swing.JLabel lb_ruta;
-    private javax.swing.JLabel lb_titulograf;
+    public static javax.swing.JLabel lb_ruta;
+    public static javax.swing.JLabel lb_titulograf;
     public static javax.swing.JPanel pMain;
     private javax.swing.JPanel p_crono;
     public static javax.swing.JRadioButton r_ascen;
