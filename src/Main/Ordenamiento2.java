@@ -62,7 +62,7 @@ class Ordenamiento2 implements Runnable {
             System.out.println(datos_ordenados);
             pdfOrden2(Ordenamiento.fechaReportes());
             html2(Ordenamiento.fechaReportes());
-            JOptionPane.showMessageDialog(new FrameMain(), "Se ha terminado el ordenamiento descendente y creado los reportes");
+            //JOptionPane.showMessageDialog(new FrameMain(), "Se ha terminado el ordenamiento descendente y creado los reportes");
         } catch (HeadlessException e)
         {
         } catch (DocumentException | IOException ex)
@@ -93,22 +93,22 @@ class Ordenamiento2 implements Runnable {
                 }
                 imprimirConsola();
                 FrameMain.imprimirGrafica2();
-                FrameMain.panelNuevo2.updateUI();
                 Thread.sleep(750);
-                pasos++;
-                pasoslb.setText(String.valueOf(pasos));
+                
                 FrameMain.pMain.remove(FrameMain.panelNuevo2);
                 if (i < j)
                 {
                     aux = A[i];
                     A[i] = A[j];
                     A[j] = aux;
-
+                    pasos++;
+                    pasoslb.setText(String.valueOf(pasos));
+                    FrameMain.imprimirGrafica2();
                 }
             }
             A[izq] = A[j];
             A[j] = pivote;
-
+            FrameMain.imprimirGrafica2();
             if (izq < j - 1)
             {
                 quicksort(A, izq, j - 1);

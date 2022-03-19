@@ -64,21 +64,16 @@
                           <Component id="p_crono" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="b_examinar" min="-2" pref="141" max="-2" attributes="0"/>
-                              <Component id="r_ascen" min="-2" pref="111" max="-2" attributes="0"/>
-                              <Component id="r_descen" min="-2" pref="111" max="-2" attributes="0"/>
-                          </Group>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="b_examinar" min="-2" pref="141" max="-2" attributes="0"/>
+                          <Component id="r_ascen" max="32767" attributes="0"/>
+                          <Component id="r_descen" alignment="0" pref="177" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="b_ordenar" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="b_ordenar" min="-2" pref="141" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -93,7 +88,7 @@
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lb_titulograf" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
-                      <Component id="b_ordenar" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
+                      <Component id="b_ordenar" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">

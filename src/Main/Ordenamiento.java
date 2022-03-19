@@ -59,7 +59,7 @@ class Ordenamiento implements Runnable {
                 }
                 pdfOrden1(fechaReportes());
                 html1(fechaReportes());
-                JOptionPane.showMessageDialog(new FrameMain(), "Se ha terminado el ordenamiento ascendente y los reportes");
+                //JOptionPane.showMessageDialog(new FrameMain(), "Se ha terminado el ordenamiento ascendente y los reportes");
                 //Limpiar los datos
                 //limpiarDatos();
             }
@@ -95,23 +95,26 @@ class Ordenamiento implements Runnable {
                 {
                     j--;
                 }
+
                 imprimirConsola();
                 FrameMain.imprimirGrafica();
                 Thread.sleep(750);
-                pasos++;
-                FrameMain.pMain.remove(FrameMain.panelNuevo);
-                pasoslb.setText(String.valueOf(pasos));
+                
                 if (i < j)
                 {
                     aux = A[i];
                     A[i] = A[j];
                     A[j] = aux;
-
+                    pasos++;
+                    pasoslb.setText(String.valueOf(pasos));
+                    FrameMain.imprimirGrafica();
+                    
+                    
                 }
             }
             A[izq] = A[j];
             A[j] = pivote;
-
+            FrameMain.imprimirGrafica();
             if (izq < j - 1)
             {
                 quicksort(A, izq, j - 1);
@@ -262,28 +265,6 @@ class Ordenamiento implements Runnable {
         return fechaActual;
     }
 
-    public static void limpiarDatos() {
-        //Restaurar labels
-        FrameMain.lb_ruta.setText(" Ruta del archivo");
-        FrameMain.lb_titulograf.setText(" Titulo de la gráfica");
-        
-        //Restaurar variables
-        FrameMain.contador = 0;
-        FrameMain.title = "";
-        FrameMain.iniciahilo = true;
-        FrameMain.iniciahilo2 = true;
-        //Reinicar cronometro
-        Cronometro.hora = 0;
-        Cronometro.minuto = 0;
-        Cronometro.segundo = 0;
-        Cronometro.reloj = "";
-        //Restaurar arreglo
-        for (int i = 0; i < FrameMain.datosArreglos.length; i++)
-        {
-            FrameMain.datosArreglos[i] = 0;
-        }
-        
-        
-    }
+   
 
 }
